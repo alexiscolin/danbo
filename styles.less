@@ -1,0 +1,497 @@
+/*** VARIABLES ***/
+
+@danboHeight: 200px;
+@danboWidth: 150px;
+@danboDepth: @danboWidth / 2.5;
+
+@cameraX: -20deg;
+
+@mainColor: lighten(@colorShadow, 20);
+@colorLight: lighten(@mainColor, 10);
+@colorShadow: #b89070;
+
+/*** MIXINS ***/
+
+.position(@width, @height,@pos){
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin: 0 0 0 -(@width / 2);
+}
+
+.fullSize{
+  width: 100%;
+  height: 100%;
+}
+
+.position3D(@rotateX, @rotateY, @rotateZ, @translateX, @translateY, @translateZ, @originX, @originY, @preserve){
+  transform: rotateX(@rotateX) rotateY(@rotateY) rotateZ(@rotateZ) translateX(@translateX) translateY(@translateY) translateZ(@translateZ);
+  transform-origin: @originX @originY;
+}
+
+.position3D(@rotateX, @rotateY, @rotateZ, @translateX, @translateY, @translateZ, @originX, @originY, @preserve) when (@preserve = true){
+  transform-style: preserve-3d;
+}
+
+.positionFace{
+  background: @mainColor;
+  .position3D(0, 0, 0, 0, 0, 0, 0, 0, true);
+}
+
+.positionTop{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  
+  .position3D( -90deg, 0, 0, 0, 0, 0, 0, 0, false);
+}
+
+.positionSide{
+  position: absolute;
+  left: 100%;
+  top: 0%;
+  height: 100%;
+  background: @colorShadow;
+   
+  .position3D( 0, 90deg, 0, 0, 0, 0, 0, 0, true);
+}
+
+/*** ANIMATIONS ***/
+
+@keyframes camera {
+  0%{
+    perspective-origin: 250% -200%;
+    transform: scale(.8);
+  }
+  40%{
+    perspective-origin: 100% -50%;
+    transform: scale(1);
+  }
+  60%{
+    perspective-origin: 100% -50%;
+    transform: scale(1);
+  }
+  100%{
+    perspective-origin: 250% -200%;
+    transform: scale(.8);
+  }
+}
+
+@keyframes openEyes {
+
+  15%{
+    transform: scale(0);
+  }
+  28%{
+    transform: scale(.8);
+  }
+  35%{
+    transform: scale(.8);
+  }
+  60%{
+    transform: scale(.2);
+  }
+  61%{
+    transform: scale(0);
+  }
+  62%{
+    transform: scale(1);
+  }
+  63%{
+    transform: scale(0);
+  }
+  64%{
+    transform: scale(1);
+  }
+  75%{
+    transform: scale(1);
+  }
+  90%{
+    transform: scale(0);
+  }
+
+}
+
+@keyframes openMouth {
+  20%{
+    transform: scale(0);
+  }
+  30%{
+    transform: scale(.5);
+  }
+  35%{
+    transform: scale(.5);
+  }  
+  60%{
+    transform: scale(1.4);
+  }
+  65%{
+    transform: scale(1);
+  }
+  75%{
+    transform: scale(1);
+  }
+  90%{
+    transform: scale(0);
+  }
+}
+
+@keyframes moveHead{
+  0%{
+    .position3D(-6deg, -10deg, 0, 0, 0, ((@headDepth - @danboDepth)/2), 50%, 35%, true);
+  }
+  20%{
+    .position3D(0, @cameraX, 0, 0, 0, ((@headDepth - @danboDepth)/2), 50%, 35%, true);
+  }
+  50%{
+    .position3D(15deg, @cameraX, 0, 0, 10px, ((@headDepth - @danboDepth)/2), 50%, 35%, true);
+  }
+  
+  70%{
+    .position3D(0, @cameraX, 0, 0, 0, ((@headDepth - @danboDepth)/2), 50%, 35%, true);
+  }
+  90%{
+    .position3D(-6deg, -10deg, 0, 0, 0, ((@headDepth - @danboDepth)/2), 50%, 35%, true);
+  }
+} 
+
+@-webkit-keyframes moveLeftArm {
+
+  65% {
+    .position3D(-0deg, 0deg, -20deg, 0, 0, -((@danboDepth - @armDepth) / 2), 50%, 0, true);
+  }
+  66% {
+    .position3D(-0deg, 0deg, -35deg, 0, 0, -((@danboDepth - @armDepth) / 2), 50%, 0, true);
+  }
+  67% {
+    .position3D(-0deg, 0deg, -20deg, 0, 0, -((@danboDepth - @armDepth) / 2), 50%, 0, true);
+  }
+  68% {
+    .position3D(-0deg, 0deg, -35deg, 0, 0, -((@danboDepth - @armDepth) / 2), 50%, 0, true);
+  }
+  70% {
+    .position3D(-0deg, 0deg, -20deg, 0, 0, -((@danboDepth - @armDepth) / 2), 50%, 0, true);
+  }
+}
+
+@-webkit-keyframes moveRightArm {
+  65% {
+    .position3D(-0deg, 0deg, 20deg, 0, 0, -((@danboDepth - @armDepth) / 2), 70%, 0, true);
+  }
+  66% {
+    .position3D(-0deg, 0deg, 35deg, 0, 0, -((@danboDepth - @armDepth) / 2), 70%, 0, true);
+  }
+  67% {
+    .position3D(-0deg, 0deg, 20deg, 0, 0, -((@danboDepth - @armDepth) / 2), 70%, 0, true);
+  }
+  68% {
+    .position3D(-0deg, 0deg, 35deg, 0, 0, -((@danboDepth - @armDepth) / 2), 70%, 0, true);
+  }
+  70% {
+    .position3D(-0deg, 0deg, 20deg, 0, 0, -((@danboDepth - @armDepth) / 2), 70%, 0, true);
+  }
+}
+
+/*** CONTENT ***/
+
+#board{
+  perspective: 4000px;
+  animation: camera 20s ease infinite;
+}
+
+#danbo{
+  margin: 10% auto;
+  position: relative;
+  //transform: rotateY(20deg);
+  transform-style: preserve-3d;
+}
+
+.bg{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(130deg, #8bc48c 0%,#78a575 100%);
+}
+
+//HEAD
+@headWidth: @danboWidth * 2;
+@headHeight: @danboHeight * .85;
+@headDepth: @danboHeight * .6;
+.danbo__head{
+  position: relative;
+  margin: 0 auto;
+  perspective: 4000px;
+  width: @headWidth;
+  height: @headHeight;
+  
+  .position3D(-6deg, -10deg, 0, 0, 0, ((@headDepth - @danboDepth)/2), 50%, 35%, true);
+  
+  animation: moveHead 20s ease infinite;
+}
+
+.danbo__head__bg{
+  width: 100%;
+  height: 100%;
+  background: @mainColor;
+}
+
+.danbo__head--face{
+  .fullSize;
+  //background: @mainColor;
+  
+  &:after{
+    content: '';
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: @headDepth;
+    bottom: 0;
+    left: 0;
+    background: @colorShadow;
+    .position3D(90deg, 0, 0, 0, 0, 0, 0, 100%, false);
+  }
+}
+
+.danbo__head--top{
+  background: @colorLight;
+  height: @headDepth;
+  .positionTop;
+}
+
+.danbo__head--side{
+  width: @headDepth;
+  .positionSide;
+}
+
+//FACE
+@eyesSize: @headWidth * .133333333;
+.danbo__head__eyes{
+  position: absolute;
+  width: @eyesSize;
+  height: @eyesSize;
+  top: 25%;
+  background: @colorShadow;
+  border-radius: @eyesSize;
+  transform: scale(0);
+  
+  animation: openEyes 20s ease infinite;
+}
+
+.danbo__head__eyes--left{
+  left: 30%;
+  margin-left: -@eyesSize / 2;
+}
+.danbo__head__eyes--right{
+  right: 30%;
+  margin-right: -@eyesSize / 2;
+}
+
+.danbo__head__mouth{
+  @mouthWidth: 50px;
+  @mouthHeight: 30px;
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 60%;
+  left: 50%;
+  margin-left: -@mouthWidth / 2;
+  border-style: solid;
+  border-width: 0 (@mouthWidth / 2) @mouthHeight (@mouthWidth / 2);
+  border-color: transparent transparent #b89070 transparent;
+  transform: scale(0);
+  
+  animation: openMouth 20s ease infinite;
+}
+
+//ARMS
+@armWidth: @danboWidth / 3;
+@armDepth: @armWidth * .6;
+.danbo__leftarm{
+  position: absolute;
+  top: 20px;
+  width: @armWidth;
+  height: @danboHeight * .75;
+  left: 50%;
+  margin-left: @danboWidth / 2;
+  
+  .position3D(-0deg, 0deg, -20deg, 0, 0, -((@danboDepth - @armDepth) / 2), 50%, 0, true); 
+  
+  animation: moveLeftArm 20s ease infinite;
+}
+
+.danbo__leftarm--face{
+  .fullSize;
+  background: @mainColor;
+  position: relative;
+  overflow: hidden;
+  
+  &:after{
+    content: '';
+    position: absolute;
+    display: block;
+    left: -25%;
+    width: 200%;
+    height: 40px;
+    background: @colorShadow;
+    transform: rotateZ(7deg);
+    transform-origin: 50% 100%;
+  }
+}
+
+.danbo__leftarm--side{
+  width: @armDepth; 
+  .positionSide;
+  
+  &:after{
+    content: '';
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: @armWidth;
+    background: @colorShadow;
+    bottom: 0;
+    
+    .position3D(90deg, 0, 0, 0, 0, 0, 0, 100%, false);
+  }
+}
+
+.danbo__rightarm{
+  position: absolute;
+  top: 20px;
+  width: 50px;
+  height: @danboHeight * .75;
+  right: 50%;
+  margin-right: @danboWidth / 2;
+  z-index: 0;
+  
+  .position3D(0deg, 0deg, 20deg, 0, 0, -((@danboDepth - @armDepth) / 2), 50%, 0%, true); 
+  
+  animation: moveRightArm 20s ease infinite;
+}
+
+.danbo__rightarm--face{
+  .fullSize;
+  background: @mainColor;
+  position: relative;
+  overflow: hidden;
+  
+  &:after{
+    content: '';
+    position: absolute;
+    display: block;
+    left: -25%;
+    width: 200%;
+    height: 40px;
+    background: @colorShadow;
+    transform: rotateZ(-10deg);
+    transform-origin: 50% 100%;
+  }
+}
+
+.danbo__rightarm--side{
+  &:extend(.danbo__leftarm--side);
+}
+
+//BODY
+.danbo__body{
+  position: relative;
+  margin: -20px auto 0;
+  width: @danboWidth;
+  height: @danboHeight;
+  z-index: 99;
+  background: @mainColor;
+  box-shadow: inset 0px 80px 0px -30px #b89070, inset 0 -40px 0px @colorShadow; 
+  
+  .position3D(0, @cameraX, 0, 0, 0, 0, 50%, 0, true);
+}
+
+.danbo__body--side{
+  width: @danboDepth; 
+  .positionSide;
+}
+
+//BELLY
+.danbo__belly{
+  position: absolute;
+  width: @danboWidth;
+  height: @danboHeight * .2;
+  bottom: 0;
+  z-index: 99;
+  background: @colorLight;
+  border-bottom: 1px @colorShadow solid;
+  
+  .position3D(40deg, -0, 0, 0, 0, 0, 0%, 0%, true);
+}
+
+.danbo__hip--left{
+  @posHip: @danboHeight * .2;
+  position: absolute;
+  width: @posHip;
+  height: @danboDepth;
+  bottom: -@posHip/2;
+  right: -@danboHeight * .2;
+  background: @mainColor;
+  border-bottom: 1px @colorShadow solid;
+  border-right: 1px @colorShadow solid;
+  box-sizing: border-box;
+  
+  .position3D(90deg, 40deg, 0deg, 0, -@danboDepth, 0, 0%, 0%, false);
+}
+
+.danbo__hip--right{
+  &:extend(.danbo__hip--left);
+  left: -@danboHeight * .2;
+  background: @colorShadow;
+  border-bottom: 4px @colorLight solid;
+  
+  .position3D(90deg, -40deg, 0deg, 0, -@danboDepth, 0, 100%, 0%, false);
+}
+
+//LEGS
+.danbo__legs{
+  position: relative;
+  margin: auto;
+  width: @danboWidth;
+  height: @danboWidth * .6;
+  
+  .position3D(0, @cameraX, 0, 0, 0, 0, 50%, 0, true);
+  
+  &:after{
+    content: '';
+    width: @headWidth;
+    height: @headDepth;
+    display: block;
+    position: absolute;
+    background: darken(#7db17b, 4);
+    top: 100%;
+    
+    .position3D(-90deg, 0, 0, -((@headWidth - @danboWidth)/2), -((@headDepth - @danboDepth)/2), 0, 50%, 0, true);
+  }
+}
+
+.danbo__legs__left{
+  position: absolute;
+  left: 0;
+  width: (@danboWidth / 2) - 10px;
+  height: 100%;
+  background: @mainColor;
+}
+
+.danbo__legs__right{
+  &:extend(.danbo__legs__left);
+  left: initial;
+  right: 0;
+}
+
+.danbo__legs__left--side{
+  width: @danboDepth;
+  
+  .positionSide;
+  left: (@danboWidth / 2) - 10px;
+}
+
+.danbo__legs__right--side{
+  &:extend(.danbo__legs__left--side);
+  left: 100%;
+}
